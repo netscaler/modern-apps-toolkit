@@ -6,31 +6,35 @@ The plugin is supported from Citrix ingress controller version 1.32.7 onwards.
 
 ## Installation and usage
 
-You can install the `kubectl` plug-in by downloading it from the [NetScaler Modern Apps tool kit repository](https://github.com/netscaler/modern-apps-toolkit/releases/download/) using curl as follows.
+You can install the `kubectl` plug-in by downloading it from the [NetScaler Modern Apps tool kit repository](https://github.com/netscaler/modern-apps-toolkit/releases) using curl as follows.
 
-For Linux and macOS:
+For Linux:
 
-        curl -LO <Link>
-        tar -xvf netscaler-k8s-plugin_{{ tag }}_{{ os }}_{{ arch }}.tar.gz
-        chmod +x netscaler-k8s-plugin_{{ tag }}_{{ os }}_{{ arch }}.tar.gz/kubectl-netscaler_k8s
-        sudo mv netscaler-k8s-plugin_{{ tag }}_{{ os }}_{{ arch }}.tar.gz/kubectl- netscaler_k8s /usr/local/bin/ netscaler_k8s
+        curl -LO https://github.com/netscaler/modern-apps-toolkit/releases/download/v1.0.0-netscaler-k8s-plugin/netscaler-k8s-plugin_1.0.0-netscaler-k8s-plugin_linux_amd64.tar.gz
+        gunzip netscaler-k8s-plugin_1.0.0-netscaler-k8s-plugin_linux_amd64.tar.gz
+        tar -xvf netscaler-k8s-plugin_1.0.0-netscaler-k8s-plugin_linux_amd64.tar
+        chmod +x netscaler-k8s
+        sudo mv netscaler-k8s /usr/local/bin/kubectl-netscaler_k8s
+
+For Mac:
+
+        curl -s -L https://github.com/netscaler/modern-apps-toolkit/releases/download/v1.0.0-netscaler-k8s-plugin/netscaler-k8s-plugin_1.0.0-netscaler-k8s-plugin_darwin_amd64.tar.gz | tar xvz -
+        chmod +x netscaler-k8s
+        sudo mv netscaler-k8s /usr/local/bin/kubectl-netscaler_k8s
+
+**Note:** For Mac, you need to enable [Open a developer app](https://support.apple.com/en-in/HT202491)
+
 
 For Windows:
 
-        curl.exe -LO <Link>
-        tar -xvf netscaler-k8s-plugin_{{ tag }}_{{ os }}_{{ arch }}.tar.gz
+        curl.exe -LO https://github.com/netscaler/modern-apps-toolkit/releases/download/v1.0.0-netscaler-k8s-plugin/netscaler-k8s-plugin_1.0.0-netscaler-k8s-plugin_windows_amd64.tar.gz | tar xvz
+        
+Rename the file netscaler-k8s.exe to kubectl-netscaler_k8s.exe
 
-**Note:** For Windows, you must set you `$PATH` variable to where kubectl-netscaler_k8s.exe file is extracted.
+**Note:** For Windows, you must set you `$PATH` variable to where netscaler_k8s.exe file is extracted.
 
-Depending on the version number and Operating system, replace the `Link` in the CURL command:
 
-https://github.com/netscaler/modern-apps-toolkit/releases/download/{{ tag }}/netscaler-k8s-plugin_{{ tag }}_{{ os }}_{{ arch }}.tar.gz
-
-For example:
-
-        curl -LO  https://github.com/netscaler/modern-apps-toolkit/releases/download/v1.0.0-netscalecaler-k8s-plugin_1.0.0-netscaler-k8s-plugin_darwin_amd64.tar.gz
-
-The following subcommand are available with this plug in:
+The following subcommands are available with this plug in:
 
 | Subcommand   | Description |
 ---------------| --------------
