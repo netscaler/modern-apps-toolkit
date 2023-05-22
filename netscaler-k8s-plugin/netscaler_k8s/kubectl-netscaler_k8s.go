@@ -32,7 +32,7 @@ func main() {
 		Use:   "netscaler-k8s",
 		Short: "A Kubernetes plugin for inspecting Ingress Controller and associated NetScaler deployments",
 	}
-
+	rootCmd.CompletionOptions.DisableDefaultCmd = true
 	// Respect some basic kubectl flags like --namespace
 	flags := genericclioptions.NewConfigFlags(true)
 	flags.AddFlags(rootCmd.PersistentFlags())

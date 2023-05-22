@@ -5,33 +5,30 @@ You can perform troubleshooting operations using the subcommands available with 
 The plugin is supported from Citrix ingress controller version 1.32.7 onwards.
 
 ## Installation and usage
-
 You can install the `kubectl` plug-in by downloading it from the [NetScaler Modern Apps tool kit repository](https://github.com/netscaler/modern-apps-toolkit/releases) using curl as follows.
 
 For Linux:
 
-        curl -LO https://github.com/netscaler/modern-apps-toolkit/releases/download/v1.0.0-netscaler-k8s-plugin/netscaler-k8s-plugin_1.0.0-netscaler-k8s-plugin_linux_amd64.tar.gz
-        gunzip netscaler-k8s-plugin_1.0.0-netscaler-k8s-plugin_linux_amd64.tar.gz
-        tar -xvf netscaler-k8s-plugin_1.0.0-netscaler-k8s-plugin_linux_amd64.tar
-        chmod +x netscaler-k8s
-        sudo mv netscaler-k8s /usr/local/bin/kubectl-netscaler_k8s
+        curl -LO https://github.com/netscaler/modern-apps-toolkit/releases/download/v1.0.0-netscaler-k8s-plugin/netscaler-k8s-plugin_v1.0.0-netscaler-k8s-plugin_Linux_x86_64.tar.gz
+        gunzip netscaler-k8s-plugin_v1.0.0-netscaler-k8s-plugin_Linux_x86_64.tar.gz
+        tar -xvf netscaler-k8s-plugin_v1.0.0-netscaler-k8s-plugin_Linux_x86_64.tar
+        chmod +x kubectl-netscaler_k8s
+        sudo mv kubectl-netscaler_k8s /usr/local/bin/kubectl-netscaler_k8s
 
 For Mac:
 
-        curl -s -L https://github.com/netscaler/modern-apps-toolkit/releases/download/v1.0.0-netscaler-k8s-plugin/netscaler-k8s-plugin_1.0.0-netscaler-k8s-plugin_darwin_amd64.tar.gz | tar xvz -
-        chmod +x netscaler-k8s
-        sudo mv netscaler-k8s /usr/local/bin/kubectl-netscaler_k8s
+        curl -s -L https://github.com/netscaler/modern-apps-toolkit/releases/download/v1.0.0-netscaler-k8s-plugin/netscaler-k8s-plugin_v1.0.0-netscaler-k8s-plugin_Darwin_x86_64.tar.gz | tar xvz -
+        chmod +x kubectl-netscaler_k8s
+        sudo mv kubectl-netscaler_k8s /usr/local/bin/kubectl-netscaler_k8s
 
-**Note:** For Mac, you need to enable [Open a developer app](https://support.apple.com/en-in/HT202491)
-
+> **Note:** For Mac, you need to enable [allow a developer app](https://support.apple.com/en-in/HT202491)
 
 For Windows:
 
-        curl.exe -LO https://github.com/netscaler/modern-apps-toolkit/releases/download/v1.0.0-netscaler-k8s-plugin/netscaler-k8s-plugin_1.0.0-netscaler-k8s-plugin_windows_amd64.tar.gz | tar xvz
+        curl.exe -LO https://github.com/netscaler/modern-apps-toolkit/releases/download/v1.0.0-netscaler-k8s-plugin/netscaler-k8s-plugin_v1.0.0-netscaler-k8s-plugin_Windows_x86_64.zip | tar xvz
         
-Rename the file netscaler-k8s.exe to kubectl-netscaler_k8s.exe
 
-**Note:** For Windows, you must set you `$PATH` variable to where netscaler_k8s.exe file is extracted.
+> **Note:** For Windows, you must set you `$PATH` variable to where kubectl-netscaler_k8s.exe file is extracted.
 
 
 The following subcommands are available with this plug in:
@@ -125,9 +122,9 @@ The following is a sample output for the kubectl netscaler-k8s conf subcommand:
 This support subcommand gets NetScaler (show techsupport) and Ingress Controller
 support bundle.
 
-**Warning:**
- For tier 2 NetScaler, technical support bundle files are copied to the location the user
-specifies. For security reasons, if the ingress controller is managing a tier 1 NetScaler then the tech support bundle is extracted only and not copied. The user must get the technical support bundle files from the NetScaler manually.
+> **Warning:**
+ For NetScaler CPX form factor, technical support bundle files are copied to the location the user
+specifies. For security reasons, if the ingress controller is managing a NetScaler VPX/MPX then the tech support bundle is extracted only and not copied. The user must get the technical support bundle files from the NetScaler manually.
 
 Flags for support subcommand:
 
