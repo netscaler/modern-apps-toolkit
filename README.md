@@ -10,3 +10,7 @@ git clone https://github.com/netscaler/modern-apps-toolkit.git
 ## Tools Included
 - Kubectl **netscaler-k8s** plugin:  
 NetScaler provides a kubectl plug-in **netscaler-k8s** to inspect ingress controller deployments and aids in troubleshooting operations. You can inspect NetScaler config and related Kubernetes components using the subcommands available with this plug-in. For more information on how to use the plugin, see [Kubectl plugin document](netscaler-k8s-plugin/README.md)
+
+- CIC Diagnostics Tool:  
+CIC Diagnostics tool is a simple shell script that collects information related to Citrix Ingress Controller and applications deployed in the Kubernetes cluster.
+For more information on how this tool, see [CIC Diagnostics Tool](cic_diagnostic_tool/README.md)
