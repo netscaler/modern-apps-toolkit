@@ -13,4 +13,4 @@ NetScaler provides a kubectl plug-in **netscaler-k8s** to inspect ingress contro
 
 - CIC Diagnostics Tool:  
 CIC Diagnostics tool is a simple shell script that collects information related to Citrix Ingress Controller and applications deployed in the Kubernetes cluster.
-For more information on how this tool, see [CIC Diagnostics Tool](cic_diagnostic_tool/README.md)
+For more information on how this tool, see [CIC Diagnostics Tool](cic_diagnostics_tool/README.md)
