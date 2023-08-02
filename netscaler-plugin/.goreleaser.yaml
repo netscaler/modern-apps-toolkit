@@ -1,11 +1,11 @@
-project_name: "netscaler-k8s-plugin"
+project_name: "netscaler-plugin"
 before:
   hooks:
     - go mod tidy
     - go generate ./...
 builds:
-  - binary: kubectl-netscaler_k8s
-    main: netscaler_k8s/kubectl-netscaler_k8s.go
+  - binary: kubectl-netscaler
+    main: netscaler/kubectl-netscaler.go
     env:
       - CGO_ENABLED=0
     goos:

@@ -24,8 +24,8 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/netscaler/modern-apps-toolkit/netscaler-k8s-plugin/constant"
-	"github.com/netscaler/modern-apps-toolkit/netscaler-k8s-plugin/util"
+	"github.com/netscaler/modern-apps-toolkit/netscaler-plugin/constant"
+	"github.com/netscaler/modern-apps-toolkit/netscaler-plugin/util"
 
 	apiv1 "k8s.io/api/core/v1"
 	"k8s.io/cli-runtime/pkg/genericclioptions"

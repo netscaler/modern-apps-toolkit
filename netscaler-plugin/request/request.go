@@ -18,7 +18,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/netscaler/modern-apps-toolkit/netscaler-k8s-plugin/util"
+	"github.com/netscaler/modern-apps-toolkit/netscaler-plugin/util"
 
 	appsv1 "k8s.io/api/apps/v1"
 	apiv1 "k8s.io/api/core/v1"

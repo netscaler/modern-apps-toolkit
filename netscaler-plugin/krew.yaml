@@ -1,0 +1,38 @@
+apiVersion: krew.googlecontainertools.github.com/v1alpha2
+kind: Plugin
+metadata:
+  name: netscaler
+spec:
+  shortDescription: A Kubernetes plugin for inspecting Ingress Controller and associated NetScaler deployments
+  description: |
+    The official kubectl plugin for netscaler.
+  version: {{ .TagName }}
+  homepage: https://github.com/netscaler/modern-apps-toolkit/tree/main/netscaler-plugin#readme
+  platforms:
+  - selector:
+      matchLabels:
+        os: darwin
+        arch: amd64
+    {{addURIAndSha "https://github.com/netscaler/modern-apps-toolkit/releases/download/{{ .TagName }}/netscaler-plugin_{{ .TagName }}_Darwin_x86_64.tar.gz" .TagName | indent 6 }}
+    bin: ./kubectl-netscaler
+    files:
+    - from: "*"
+      to: "."
+  - selector:
+      matchLabels:
+        os: linux
+        arch: amd64
+    {{addURIAndSha "https://github.com/netscaler/modern-apps-toolkit/releases/download/{{ .TagName }}/netscaler-plugin_{{ .TagName }}_Linux_x86_64.tar.gz" .TagName | indent 6 }}
+    bin: ./kubectl-netscaler
+    files:
+    - from: "*"
+      to: "."
+  - selector:
+      matchLabels:
+        os: darwin
+        arch: amd64
+    {{addURIAndSha "https://github.com/netscaler/modern-apps-toolkit/releases/download/{{ .TagName }}/netscaler-plugin_{{ .TagName }}_Windows_x86_64.zip" .TagName | indent 6 }}
+    bin: ./kubectl-netscaler.exe
+    files:
+    - from: "*"
+      to: "."

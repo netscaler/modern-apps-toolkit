@@ -9,26 +9,26 @@ You can install the `kubectl` plug-in by downloading it from the [NetScaler Mode
 
 For Linux:
 
-        curl -LO https://github.com/netscaler/modern-apps-toolkit/releases/download/v1.0.0-netscaler-k8s-plugin/netscaler-k8s-plugin_v1.0.0-netscaler-k8s-plugin_Linux_x86_64.tar.gz
-        gunzip netscaler-k8s-plugin_v1.0.0-netscaler-k8s-plugin_Linux_x86_64.tar.gz
-        tar -xvf netscaler-k8s-plugin_v1.0.0-netscaler-k8s-plugin_Linux_x86_64.tar
-        chmod +x kubectl-netscaler_k8s
-        sudo mv kubectl-netscaler_k8s /usr/local/bin/kubectl-netscaler_k8s
+        curl -LO https://github.com/netscaler/modern-apps-toolkit/releases/download/v1.0.0-netscaler-plugin/netscaler-plugin_v1.0.0-netscaler-plugin_Linux_x86_64.tar.gz
+        gunzip netscaler-plugin_v1.0.0-netscaler-plugin_Linux_x86_64.tar.gz
+        tar -xvf netscaler-plugin_v1.0.0-netscaler-plugin_Linux_x86_64.tar
+        chmod +x kubectl-netscaler
+        sudo mv kubectl-netscaler /usr/local/bin/kubectl-netscaler
 
 For Mac:
 
-        curl -s -L https://github.com/netscaler/modern-apps-toolkit/releases/download/v1.0.0-netscaler-k8s-plugin/netscaler-k8s-plugin_v1.0.0-netscaler-k8s-plugin_Darwin_x86_64.tar.gz | tar xvz -
-        chmod +x kubectl-netscaler_k8s
-        sudo mv kubectl-netscaler_k8s /usr/local/bin/kubectl-netscaler_k8s
+        curl -s -L https://github.com/netscaler/modern-apps-toolkit/releases/download/v1.0.0-netscaler-plugin/netscaler-plugin_v1.0.0-netscaler-plugin_Darwin_x86_64.tar.gz | tar xvz -
+        chmod +x kubectl-netscaler
+        sudo mv kubectl-netscaler /usr/local/bin/kubectl-netscaler
 
 > **Note:** For Mac, you need to enable [allow a developer app](https://support.apple.com/en-in/HT202491)
 
 For Windows:
 
-        curl.exe -LO https://github.com/netscaler/modern-apps-toolkit/releases/download/v1.0.0-netscaler-k8s-plugin/netscaler-k8s-plugin_v1.0.0-netscaler-k8s-plugin_Windows_x86_64.zip | tar xvz
+        curl.exe -LO https://github.com/netscaler/modern-apps-toolkit/releases/download/v1.0.0-netscaler-plugin/netscaler-plugin_v1.0.0-netscaler-plugin_Windows_x86_64.zip | tar xvz
         
 
-> **Note:** For Windows, you must set you `$PATH` variable to where kubectl-netscaler_k8s.exe file is extracted.
+> **Note:** For Windows, you must set you `$PATH` variable to where kubectl-netscaler.exe file is extracted.
 
 
 The following subcommands are available with this plug in:
@@ -46,11 +46,11 @@ The following subcommands are available with this plug in:
 
 You can use the `help` command as follows to know about the available commands.
 
-        # kubectl netscaler-k8s  --help
+        # kubectl netscaler  --help
 
 For more information about a subcommand use the `help` command as follows:
 
-        # kubectl netscaler-k8s  <command> --help
+        # kubectl netscaler  <command> --help
 
 ### Status command
 
@@ -72,7 +72,7 @@ The components can be filtered based on either both application prefix (NS_APPS_
 The following example shows the status of NetScaler components created by ingress controller with the label `app=cic-tier2-citrix-cpx-with-ingress-controller` and the prefix `plugin2` in the NetScaler namespace.
 
 ```
-        # kubectl netscaler-k8s status -l app=cic-tier2-citrix-cpx-with-ingress-controller -n netscaler -p plugin
+        # kubectl netscaler status -l app=cic-tier2-citrix-cpx-with-ingress-controller -n netscaler -p plugin
 
         Showing NetScaler components for prefix: plugin2
         NAMESPACE  INGRESS         PORT  RESOURCE          NAME                                                    STATUS   
@@ -100,10 +100,10 @@ The `l` option is used for querying the label of Citrix ingress controller pod.
 | --label     | -l        | Label of the ingress controller deployment. |
 | --pod       |           | Name of the ingress controller pod.  |
 
-The following is a sample output for the kubectl netscaler-k8s conf subcommand:
+The following is a sample output for the kubectl netscaler conf subcommand:
 
 ```
-        # kubectl netscaler-k8s conf -l app=cic-tier2-citrix-cpx-with-ingress-controller -n netscaler
+        # kubectl netscaler conf -l app=cic-tier2-citrix-cpx-with-ingress-controller -n netscaler
 
           set ns config -IPAddress 198.168.0.4 -netmask 255.255.255.255
           set ns weblogparam -bufferSizeMB 3
@@ -138,9 +138,9 @@ Flags for support subcommand:
 |--unhideIP| | Set this to unhide IP addresses while collecting Kubernetes information. By default, this flag is set to `false`. |
 |--skip-nsbundle| |This option disables extraction of techsupport from NetScaler. By default, this flag is set to `false`.|
 
-The following is a sample output for the `kubectl netscaler-k8s  support` command.
+The following is a sample output for the `kubectl netscaler  support` command.
 
-        # kubectl netscaler-k8s support -l app=cic-tier2-citrix-cpx-with-ingress-controller -n plugin
+        # kubectl netscaler support -l app=cic-tier2-citrix-cpx-with-ingress-controller -n plugin
         Extracting show tech support information, this may take
         minutes.............
 

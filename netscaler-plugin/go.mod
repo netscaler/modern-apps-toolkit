@@ -1,6 +1,6 @@
 // This is a generated file. Do not edit directly.
 
-module github.com/netscaler/modern-apps-toolkit/netscaler-k8s-plugin
+module github.com/netscaler/modern-apps-toolkit/netscaler-plugin
 
 go 1.19
 

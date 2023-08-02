@@ -17,9 +17,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/netscaler/modern-apps-toolkit/netscaler-k8s-plugin/commands/conf"
-	"github.com/netscaler/modern-apps-toolkit/netscaler-k8s-plugin/commands/status"
-	"github.com/netscaler/modern-apps-toolkit/netscaler-k8s-plugin/commands/support"
+	"github.com/netscaler/modern-apps-toolkit/netscaler-plugin/commands/conf"
+	"github.com/netscaler/modern-apps-toolkit/netscaler-plugin/commands/status"
+	"github.com/netscaler/modern-apps-toolkit/netscaler-plugin/commands/support"
 
 	"github.com/spf13/cobra"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
@@ -29,7 +29,7 @@ import (
 func main() {
 
 	rootCmd := &cobra.Command{
-		Use:   "netscaler-k8s",
+		Use:   "netscaler",
 		Short: "A Kubernetes plugin for inspecting Ingress Controller and associated NetScaler deployments",
 	}
 	rootCmd.CompletionOptions.DisableDefaultCmd = true

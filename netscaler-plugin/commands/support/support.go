@@ -22,10 +22,10 @@ import (
 	"github.com/spf13/cobra"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 
-	"github.com/netscaler/modern-apps-toolkit/netscaler-k8s-plugin/constant"
-	"github.com/netscaler/modern-apps-toolkit/netscaler-k8s-plugin/kubectl"
-	"github.com/netscaler/modern-apps-toolkit/netscaler-k8s-plugin/request"
-	"github.com/netscaler/modern-apps-toolkit/netscaler-k8s-plugin/util"
+	"github.com/netscaler/modern-apps-toolkit/netscaler-plugin/constant"
+	"github.com/netscaler/modern-apps-toolkit/netscaler-plugin/kubectl"
+	"github.com/netscaler/modern-apps-toolkit/netscaler-plugin/request"
+	"github.com/netscaler/modern-apps-toolkit/netscaler-plugin/util"
 )
 
 // Constant map for kubernetes objects to query using kubectl get
