@@ -7,27 +7,27 @@ spec:
   description: |
     The official kubectl plugin for netscaler. 
     This plugin is used for inspecting Ingress Controller and associated NetScaler deployments.
-  version: v1.1.0
+  version: v2.0.0
   homepage: https://github.com/netscaler/modern-apps-toolkit/tree/main/netscaler-plugin#readme
   platforms:
   - selector:
       matchLabels:
         os: darwin
         arch: amd64
-    uri: "https://github.com/netscaler/modern-apps-toolkit/releases/download/v1.0.0-netscaler-plugin/netscaler-plugin_v1.0.0-netscaler-plugin_Darwin_x86_64.tar.gz"
-    sha256: 0d374bd0073c067055369b842ab56a2b96af16cc71513e92a846b71eec1ec93e
-    bin: ./kubectl-netscaler_k8s
+    uri: "https://github.com/netscaler/modern-apps-toolkit/releases/download/v2.0.0-netscaler-plugin/netscaler-plugin_v2.0.0-netscaler-plugin_Darwin_x86_64.tar.gz"
+    sha256: b5c85b7ec2ac912d46ad8316f80dc3ff3f397c28c7f3b166f5f3295d9980494b
+    bin: ./kubectl-netscaler
   - selector:
       matchLabels:
         os: linux
         arch: amd64
-    uri: "https://github.com/netscaler/modern-apps-toolkit/releases/download/v1.0.0-netscaler-plugin/netscaler-plugin_v1.0.0-netscaler-plugin_Linux_x86_64.tar.gz"
-    sha256: f0b232b63c460101ec0a53287e795dafb074edc778406aadb786bf6b6921765e
-    bin: ./kubectl-netscaler_k8s
+    uri: "https://github.com/netscaler/modern-apps-toolkit/releases/download/v2.0.0-netscaler-plugin/netscaler-plugin_v2.0.0-netscaler-plugin_Linux_x86_64.tar.gz"
+    sha256: c6de7d00f0b546c5da1d36952c836ad3ebe6d850d6985fe46f68dba5243e74fd
+    bin: ./kubectl-netscaler
   - selector:
       matchLabels:
         os: windows
         arch: amd64
-    uri: "https://github.com/netscaler/modern-apps-toolkit/releases/download/v1.0.0-netscaler-plugin/netscaler-plugin_v1.0.0-netscaler-plugin_Windows_x86_64.zip"
-    sha256: 51f061289b4bd751370267d870e7f4e5c9dac3a6d51000318f7daef5767fffab
-    bin: ./kubectl-netscaler_k8s.exe
+    uri: "https://github.com/netscaler/modern-apps-toolkit/releases/download/v2.0.0-netscaler-plugin/netscaler-plugin_v2.0.0-netscaler-plugin_Windows_x86_64.zip"
+    sha256: 3147fe1d5430b13924704c803a98d585a059a742128b565b3588616b4f41bbd1
+    bin: ./kubectl-netscaler.exe

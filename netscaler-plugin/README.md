@@ -1,15 +1,61 @@
-# NetScaler Kubernetes kubectl plug-in
+# NetScaler Kubernetes kubectl plugin
 
-NetScaler provides a  `kubectl` plug-in for inspecting ingress controller deployments and perform troubleshooting operations.
-You can perform troubleshooting operations using the subcommands available with this plug-in.
-The plugin is supported from Citrix ingress controller version 1.32.7 onwards.
+NetScaler provides a  `kubectl` plugin for inspecting ingress controller deployments and perform troubleshooting operations.
+You can perform troubleshooting operations using the subcommands available with this plugin.
+The plugin is supported from CIC version 1.32.7 onwards.
 
-## Installation and usage
-You can install the `kubectl` plug-in by downloading it from the [NetScaler Modern Apps tool kit repository](https://github.com/netscaler/modern-apps-toolkit/releases) using curl as follows.
+## Installation 
+<details>
+  <summary>Using Krew </summary>
+
+### Installation using Krew
+
+Krew helps you discover and install kubectl plugins on your machine. 
+
+You require internet connectivity to you machine to carry out below steps.
+Follow the [Krew Quickstart Guide](https://krew.sigs.k8s.io/docs/user-guide/quickstart/) for installation and setup of Krew.
+
+&nbsp; i. [Install and set up](https://krew.sigs.k8s.io/docs/user-guide/setup/install/) Krew on your machine
+
+&nbsp; ii. Download the plugin list:
+
+```
+        kubectl krew update
+```
+
+&nbsp; iii. Discover plugins available on Krew:
+
+    ```          
+        kubectl krew search netscaler
+    ```
+    ```
+        NAME       DESCRIPTION                  INSTALLED
+        netscaler  Inspect NetScaler Ingresses  no
+    ```
+
+&nbsp; iv. Install the plugin:
+
+    ```
+        kubectl krew install netscaler
+    ```
+
+> **Note:** For Mac, you need to enable [allow a developer app](https://support.apple.com/en-in/HT202491)
+
+</details>
+<details>
+  <summary>Using Binary </summary>
+
+### Installation using binary
+
+> **Warning:**
+ From version 2.0.0, It is recommended to use Krew plugin manager for installation and upgrade actvity. For disconnected machines, you can use the below method, but upgrades have to managed manually.
+
+You can install the `kubectl` plugin by downloading it from the [NetScaler Modern Apps tool kit repository](https://github.com/netscaler/modern-apps-toolkit/releases) using curl as follows.
+
 
 For Linux:
 
-        curl -LO https://github.com/netscaler/modern-apps-toolkit/releases/download/v1.0.0-netscaler-plugin/netscaler-plugin_v1.0.0-netscaler-plugin_Linux_x86_64.tar.gz
+        curl -LO https://github.com/netscaler/modern-apps-toolkit/releases/download/v2.0.0-netscaler-plugin/netscaler-plugin_v2.0.0-netscaler-plugin_Linux_x86_64.tar.gz
         gunzip netscaler-plugin_v1.0.0-netscaler-plugin_Linux_x86_64.tar.gz
         tar -xvf netscaler-plugin_v1.0.0-netscaler-plugin_Linux_x86_64.tar
         chmod +x kubectl-netscaler
@@ -17,7 +63,7 @@ For Linux:
 
 For Mac:
 
-        curl -s -L https://github.com/netscaler/modern-apps-toolkit/releases/download/v1.0.0-netscaler-plugin/netscaler-plugin_v1.0.0-netscaler-plugin_Darwin_x86_64.tar.gz | tar xvz -
+        curl -s -L https://github.com/netscaler/modern-apps-toolkit/releases/download/v2.0.0-netscaler-plugin/netscaler-plugin_v2.0.0-netscaler-plugin_Darwin_x86_64.tar.gz | tar xvz -
         chmod +x kubectl-netscaler
         sudo mv kubectl-netscaler /usr/local/bin/kubectl-netscaler
 
@@ -25,13 +71,16 @@ For Mac:
 
 For Windows:
 
-        curl.exe -LO https://github.com/netscaler/modern-apps-toolkit/releases/download/v1.0.0-netscaler-plugin/netscaler-plugin_v1.0.0-netscaler-plugin_Windows_x86_64.zip | tar xvz
+        curl.exe -LO https://github.com/netscaler/modern-apps-toolkit/releases/download/v2.0.0-netscaler-plugin/netscaler-plugin_v2.0.0-netscaler-plugin_Windows_x86_64.zip | tar xvz
         
 
 > **Note:** For Windows, you must set you `$PATH` variable to where kubectl-netscaler.exe file is extracted.
 
+</details>
 
-The following subcommands are available with this plug in:
+## Examples for usage of subcommands
+
+The following subcommands are available with this plugin:
 
 | Subcommand   | Description |
 ---------------| --------------
@@ -40,24 +89,23 @@ The following subcommands are available with this plug in:
 |  `conf`   |  Displays NetScaler configuration (show run output) |
 |  `support`  | Gets NetScaler (`show techsupport`) and Ingress controller support bundle.  Extracts support related information from Citrix ADC and ingress controller. Support related information is extracted as two tar.gz files. These two tar files are `show tech support` information from Citrix ADC and Kubernetes related information for troubleshooting where the ingress controller is deployed.|
 
-## Examples for usage of subcommands
 
 ### Help command
 
 You can use the `help` command as follows to know about the available commands.
 
-        # kubectl netscaler  --help
+        kubectl netscaler  --help
 
 For more information about a subcommand use the `help` command as follows:
 
-        # kubectl netscaler  <command> --help
+        kubectl netscaler  <command> --help
 
 ### Status command
 
 The status subcommand shows the status of various components of NetScaler created and
 managed by ingress controller in the Kubernetes environment.
 
-The components can be filtered based on either both application prefix (NS_APPS_NAME_PREFIX environment variable for Citrix ingress controller pods or the entity Prefix value in the Helm chart) and ingress name or one of them. Default search prefix is `k8s`.
+The components can be filtered based on either both application prefix (NS_APPS_NAME_PREFIX environment variable for CIC pods or the entity Prefix value in the Helm chart) and ingress name or one of them. Default search prefix is `k8s`.
 
 | Flag      |Short form | Description |
 |-----------|-----------|-------------|
@@ -72,8 +120,9 @@ The components can be filtered based on either both application prefix (NS_APPS_
 The following example shows the status of NetScaler components created by ingress controller with the label `app=cic-tier2-citrix-cpx-with-ingress-controller` and the prefix `plugin2` in the NetScaler namespace.
 
 ```
-        # kubectl netscaler status -l app=cic-tier2-citrix-cpx-with-ingress-controller -n netscaler -p plugin
-
+        kubectl netscaler status -l app=cic-tier2-citrix-cpx-with-ingress-controller -n netscaler -p plugin
+```
+```
         Showing NetScaler components for prefix: plugin2
         NAMESPACE  INGRESS         PORT  RESOURCE          NAME                                                    STATUS   
         --         --              --    Listener          plugin-198.168.0.1_80_http                              up       
@@ -92,7 +141,7 @@ The following example shows the status of NetScaler components created by ingres
 ### Conf command
 
 This subcommand shows the running configuration information on the NetScaler (`show run output`).
-The `l` option is used for querying the label of Citrix ingress controller pod.
+The `l` option is used for querying the label of CIC pod.
 
 | Flag        |Short form | Description |
 |-----------  |-----------|-------------|
@@ -103,8 +152,9 @@ The `l` option is used for querying the label of Citrix ingress controller pod.
 The following is a sample output for the kubectl netscaler conf subcommand:
 
 ```
-        # kubectl netscaler conf -l app=cic-tier2-citrix-cpx-with-ingress-controller -n netscaler
-
+        kubectl netscaler conf -l app=cic-tier2-citrix-cpx-with-ingress-controller -n netscaler
+```
+```
           set ns config -IPAddress 198.168.0.4 -netmask 255.255.255.255
           set ns weblogparam -bufferSizeMB 3
           enable ns feature LB CS SSL REWRITE RESPONDER AppFlow CH
@@ -139,10 +189,47 @@ Flags for support subcommand:
 |--skip-nsbundle| |This option disables extraction of techsupport from NetScaler. By default, this flag is set to `false`.|
 
 The following is a sample output for the `kubectl netscaler  support` command.
+```
+        kubectl netscaler support -l app=cic-tier2-citrix-cpx-with-ingress-controller -n plugin
+```
 
-        # kubectl netscaler support -l app=cic-tier2-citrix-cpx-with-ingress-controller -n plugin
+```
         Extracting show tech support information, this may take
         minutes.............
 
         Extracting Kubernetes information
         The support files are present in /root/nssupport_20230410032954
+```
+## Upgrade 
+<details>
+  <summary>Using Krew </summary>
+To upgrade the plugin using Krew, run the below command:
+
+```
+    kubectl krew upgrade netscaler
+```
+</details>
+<details>
+  <summary>Using Binary </summary>
+
+To update the plugin binary, manually find the version to be installed and reinstall the latest version using the [install steps](#installation).
+
+</details>
+
+## Uninstalling
+<details>
+  <summary>Using Krew </summary>
+If the plugin was installed using Krew, uninstall it using the below command:
+
+```
+    kubectl krew uninstall netscaler
+```
+</details>
+<details>
+  <summary>Using Binary </summary>
+If the binary was directly placed in your machine, remove the binary from `/usr/local/bin` directory:
+
+```
+    rm /usr/local/bin/kubectl-netscaler
+```
+</details>
