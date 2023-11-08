@@ -56,8 +56,8 @@ You can install the `kubectl` plugin by downloading it from the [NetScaler Moder
 For Linux:
 
         curl -LO https://github.com/netscaler/modern-apps-toolkit/releases/download/v2.0.0-netscaler-plugin/netscaler-plugin_v2.0.0-netscaler-plugin_Linux_x86_64.tar.gz
-        gunzip netscaler-plugin_v1.0.0-netscaler-plugin_Linux_x86_64.tar.gz
-        tar -xvf netscaler-plugin_v1.0.0-netscaler-plugin_Linux_x86_64.tar
+        gunzip netscaler-plugin_v2.0.0-netscaler-plugin_Linux_x86_64.tar.gz
+        tar -xvf netscaler-plugin_v2.0.0-netscaler-plugin_Linux_x86_64.tar
         chmod +x kubectl-netscaler
         sudo mv kubectl-netscaler /usr/local/bin/kubectl-netscaler
 
