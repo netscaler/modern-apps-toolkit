@@ -7,7 +7,7 @@ If there is any information that user deems sensitive and not to be shared,
 kindly scan through the output_<timestamp> directory under the user provided output directory 
 path and recreate the tar to share.
 ## How to use this script
-Download the script from [here](https://github.com/netscaler/modern-apps-toolkit/blob/main/cic_diagnostics_tool/cic_diagnostics_tool.sh) 
+Download the script from [here](https://github.com/netscaler/modern-apps-toolkit) 
     
     cd modern-apps-toolkit/cic_diagnostics_tool
     ./cic_diagnostics_tool.sh
