@@ -36,7 +36,7 @@ get_cic_dep_info() {
     mkdir -p "$namespace_dir/cic_deployment"
     echo "Collecting $get_cic_dep_cmd output"
     $get_cic_dep_cmd > $namespace_dir/$get_cic_dep_file
-    sed -i -e $REPLACE_IP_PATTERN  $namespace_dir/$get_cic_dep_file
+    #sed -i -e $REPLACE_IP_PATTERN  $namespace_dir/$get_cic_dep_file
 }
 
 get_pod_info() {
@@ -47,7 +47,7 @@ get_pod_info() {
     mkdir -p "$namespace_dir/pod"
     echo "Collecting $get_pods_cmd output"
     $get_pods_cmd > $namespace_dir/$get_pod_file
-    sed -i -e $REPLACE_IP_PATTERN  $namespace_dir/$get_pod_file
+    #sed -i -e $REPLACE_IP_PATTERN  $namespace_dir/$get_pod_file
 }
 
 get_deployment_info() {
@@ -58,7 +58,7 @@ get_deployment_info() {
     mkdir -p "$namespace_dir/deployment"
     echo "Collecting $get_deps_cmd output"
     $get_deps_cmd > $namespace_dir/$get_dep_file
-    sed -i -e $REPLACE_IP_PATTERN  $namespace_dir/$get_dep_file
+    #sed -i -e $REPLACE_IP_PATTERN  $namespace_dir/$get_dep_file
 }
 
 get_endpoint_info() {
@@ -69,7 +69,7 @@ get_endpoint_info() {
     mkdir -p "$namespace_dir/endpoint"
     echo "Collecting $desc_ep_cmd output"
     $desc_ep_cmd > $namespace_dir/$desc_ep_file
-    sed -i -e $REPLACE_IP_PATTERN  $namespace_dir/$desc_ep_file
+    #sed -i -e $REPLACE_IP_PATTERN  $namespace_dir/$desc_ep_file
 }
 
 get_svc_info() {
@@ -82,11 +82,11 @@ get_svc_info() {
     mkdir -p "$namespace_dir/svc"
     echo "Collecting $get_svc_cmd output"
     $get_svc_cmd > $namespace_dir/$get_svc_file
-    sed -i -e $REPLACE_IP_PATTERN $namespace_dir/$get_svc_file
+    #sed -i -e $REPLACE_IP_PATTERN $namespace_dir/$get_svc_file
 
     echo "Collecting $desc_svc_cmd output"
     $desc_svc_cmd > $namespace_dir/$desc_svc_file
-    sed -i -e $REPLACE_IP_PATTERN $namespace_dir/$desc_svc_file
+    #sed -i -e $REPLACE_IP_PATTERN $namespace_dir/$desc_svc_file
 } 
 
 get_ingress_info() {
@@ -99,10 +99,10 @@ get_ingress_info() {
     mkdir -p "$namespace_dir/ingress"
     echo "Collecting $get_ingress_cmd output"
     $get_ingress_cmd > $namespace_dir/$get_ingress_file
-    sed -i -e $REPLACE_IP_PATTERN $namespace_dir/$get_ingress_file
+    #sed -i -e $REPLACE_IP_PATTERN $namespace_dir/$get_ingress_file
     echo "Collecting $desc_ingress_cmd output"
     $desc_ingress_cmd > $namespace_dir/$desc_ingress_file
-    sed -i -e $REPLACE_IP_PATTERN $namespace_dir/$desc_ingress_file
+   # sed -i -e $REPLACE_IP_PATTERN $namespace_dir/$desc_ingress_file
 }
 
 get_crd_info() {
@@ -128,7 +128,7 @@ get_crd_instances() {
         get_crd_file=crd_instances/$crd_instance.yaml
         echo "Collecting $get_crd_cmd output"
         $get_crd_cmd > $namespace_dir/$get_crd_file
-        sed -i -e $REPLACE_IP_PATTERN $namespace_dir/$get_crd_file
+        #sed -i -e $REPLACE_IP_PATTERN $namespace_dir/$get_crd_file
     done
 }
 
@@ -140,7 +140,7 @@ get_event_info() {
     mkdir -p "$namespace_dir/events"
     echo "Collecting $get_event_cmd output"
     $get_event_cmd > $namespace_dir/$get_event_file
-    sed -i -e $REPLACE_IP_PATTERN $namespace_dir/$get_event_file
+    #sed -i -e $REPLACE_IP_PATTERN $namespace_dir/$get_event_file
 }
 
 get_node_info() {
@@ -149,14 +149,14 @@ get_node_info() {
     touch $get_nodes_file
     echo "Collecting $get_nodes_cmd output"
     $get_nodes_cmd > $get_nodes_file
-    sed -i -e $REPLACE_IP_PATTERN $get_nodes_file
+    #sed -i -e $REPLACE_IP_PATTERN $get_nodes_file
 
     get_nodes_yaml_cmd="kubectl get nodes -o yaml"
     get_nodes_yaml_file=$out_dir/nodes.yaml
     touch $get_nodes_yaml_file
     echo "Collecting $get_nodes_yaml_cmd output"
     $get_nodes_yaml_cmd > $get_nodes_yaml_file
-    sed -i -e $REPLACE_IP_PATTERN $get_nodes_yaml_file
+    #sed -i -e $REPLACE_IP_PATTERN $get_nodes_yaml_file
 } 
 
 get_cic_logs() {
@@ -169,7 +169,7 @@ get_cic_logs() {
     mkdir -p "$namespace_dir/cic_logs"
     echo "Collecting CIC logs"
     $get_cic_log_cmd > $namespace_dir/$cic_log_file
-    sed -i -e $REPLACE_IP_PATTERN $namespace_dir/$cic_log_file
+    #sed -i -e $REPLACE_IP_PATTERN $namespace_dir/$cic_log_file
 }
 
 get_restarted_cic_logs(){
@@ -182,7 +182,7 @@ get_restarted_cic_logs(){
     mkdir -p "$namespace_dir/cic_logs"
     echo "Collecting Restarted CIC logs"
     $get_cic_log_cmd > $namespace_dir/$cic_log_file
-    sed -i -e $REPLACE_IP_PATTERN $namespace_dir/$cic_log_file
+    #sed -i -e $REPLACE_IP_PATTERN $namespace_dir/$cic_log_file
 }
 
 create_tar() {
@@ -213,7 +213,7 @@ output_dir_name="outputs_$timestamp"
 out_dir="$user_dir/$output_dir_name"
 mkdir -p $out_dir
 
-REPLACE_IP_PATTERN="s/[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}/x.x.x.x/g"
+# REPLACE_IP_PATTERN="s/[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}/x.x.x.x/g"
 for ns in $app_namespace
 do
     namespace_dir=$out_dir/$ns
