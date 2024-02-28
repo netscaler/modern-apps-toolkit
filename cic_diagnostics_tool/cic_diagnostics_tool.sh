@@ -200,7 +200,7 @@ echo "Collecting kubectl outputs of Pods, Services, Ingress, CRD, Events and CIC
 echo "****************************************"
 echo "Which CNI has been installed in the cluster?"
 read cluster_cni
-echo "Enter space separated namespace/deployment/container_name of CIC deployment:(eg: ns1/dep1/cic ns2/dep2/citrix-ingress-controller) "
+echo "Enter the name of the Ingress Controller's (NSIC) container in the format <namespace-of-nsic>/<deployment-name-of-nsic>/<container-name>. (eg: ns1/dep1/cic ns2/dep2/citrix-ingress-controller) "
 read cic_dep
 echo "Enter space separated namespace(s) of application deployment where ingress, services, pods and crds are deployed:(eg: namespace1 namespace2 namespace3) "
 read app_namespace
