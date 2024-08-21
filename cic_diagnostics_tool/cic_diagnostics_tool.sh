@@ -1,4 +1,4 @@
-# Copyright 2022 Citrix Systems, Inc
+# Copyright 2024 Citrix Systems, Inc
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -102,7 +102,16 @@ get_ingress_info() {
     #sed -i -e $REPLACE_IP_PATTERN $namespace_dir/$get_ingress_file
     echo "Collecting $desc_ingress_cmd output"
     $desc_ingress_cmd > $namespace_dir/$desc_ingress_file
-   # sed -i -e $REPLACE_IP_PATTERN $namespace_dir/$desc_ingress_file
+    # sed -i -e $REPLACE_IP_PATTERN $namespace_dir/$desc_ingress_file
+    get_ingress_list=$(kubectl get ing -n $namespace -o jsonpath='{.items[*].metadata.name}')
+    for ingress in $get_ingress_list
+    do
+        get_ingress_yaml="kubectl get ing $ingress -n $namespace -o yaml"
+        get_ingress_yaml_file=ingress/$ingress.yaml
+        echo "Collecting $get_ingress_yaml output"
+        $get_ingress_yaml > $namespace_dir/$get_ingress_yaml_file
+        # sed -i -e $REPLACE_IP_PATTERN $namespace_dir/$get_ingress_yaml_file
+    done
 }
 
 get_crd_info() {
