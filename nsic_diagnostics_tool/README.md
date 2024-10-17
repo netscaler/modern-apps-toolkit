@@ -1,5 +1,5 @@
-# Troubleshooting Citrix Ingress Controller and application deployed in Kubernetes Cluster
-CIC Diagnostic tool is a simple shell script that collects information related to Citrix Ingress 
+# Troubleshooting Netscaler Ingress Controller and application deployed in Kubernetes Cluster
+NSIC Diagnostic tool is a simple shell script that collects information related to NetScaler Ingress 
 Controller and applications deployed in the Kubernetes cluster. 
 This tool takes namespace, CNI and output directory path as an input to extract
 the necessary information and stores the output files  in tar format. 
@@ -10,5 +10,7 @@ path and recreate the tar to share.
 Download the script from [here](https://github.com/netscaler/modern-apps-toolkit) 
     
     cd modern-apps-toolkit/cic_diagnostics_tool
-    ./cic_diagnostics_tool.sh
+    ./nsic_diagnostics_tool.sh
 
+## Diagnostic Tool
+![Diagnostic Tool](diagnostic.png)

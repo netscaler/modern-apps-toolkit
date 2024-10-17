@@ -87,7 +87,7 @@ The following subcommands are available with this plugin:
 |  `help`      |   Provides more information about the various options. You can also run this command after installation to check if the installation is successful and see what are the commands available |
 |  `status`     | Displays the status (up, down, or active) of NetScaler entities for provided prefix input (the default value of the prefix is `k8s`)|
 |  `conf`   |  Displays NetScaler configuration (show run output) |
-|  `support`  | Gets NetScaler (`show techsupport`) and Ingress controller support bundle.  Extracts support related information from Citrix ADC and ingress controller. Support related information is extracted as two tar.gz files. These two tar files are `show tech support` information from Citrix ADC and Kubernetes related information for troubleshooting where the ingress controller is deployed.|
+|  `support`  | Gets NetScaler (`show techsupport`) and Ingress controller support bundle.  Extracts support related information from NetScaler and ingress controller. Support related information is extracted as two tar.gz files. These two tar files are `show tech support` information from NetScaler and Kubernetes related information for troubleshooting where the ingress controller is deployed.|
 
 
 ### Help command
