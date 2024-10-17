@@ -15,7 +15,7 @@ disclaimer(){
     echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
     echo "********************************************************************"
     echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
-    echo "This script is collecting information related to the Citrix Ingress "
+    echo "This script is collecting information related to the NetScaler Ingress "
     echo "Controller and applications deployed in the cluster. This script by "
     echo "default masks the IP addresses in the collected output files. The "
     echo "output files will be available in tar format. If there is any information "
@@ -27,16 +27,16 @@ disclaimer(){
     echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
 }
 
-get_cic_dep_info() {
+get_nsic_dep_info() {
     namespace=$1
     namespace_dir=$2
     dep_name=$3
-    get_cic_dep_cmd="kubectl get deployment $dep_name -o yaml -n $namespace"
-    get_cic_dep_file="cic_deployment/cic_deployments.yaml"
-    mkdir -p "$namespace_dir/cic_deployment"
-    echo "Collecting $get_cic_dep_cmd output"
-    $get_cic_dep_cmd > $namespace_dir/$get_cic_dep_file
-    #sed -i -e $REPLACE_IP_PATTERN  $namespace_dir/$get_cic_dep_file
+    get_nsic_dep_cmd="kubectl get deployment $dep_name -o yaml -n $namespace"
+    get_nsic_dep_file="nsic_deployment/nsic_deployments.yaml"
+    mkdir -p "$namespace_dir/nsic_deployment"
+    echo "Collecting $get_nsic_dep_cmd output"
+    $get_nsic_dep_cmd > $namespace_dir/$get_nsic_dep_file
+    #sed -i -e $REPLACE_IP_PATTERN  $namespace_dir/$get_nsic_dep_file
 }
 
 get_pod_info() {
@@ -168,30 +168,30 @@ get_node_info() {
     #sed -i -e $REPLACE_IP_PATTERN $get_nodes_yaml_file
 } 
 
-get_cic_logs() {
+get_logs() {
     namespace=$1
     namespace_dir=$2
     dep_name=$3
     container_name=$4
-    get_cic_log_cmd="kubectl logs deployment/$dep_name -c $container_name -n $namespace"
-    cic_log_file=cic_logs/cic_logs.txt
-    mkdir -p "$namespace_dir/cic_logs"
-    echo "Collecting CIC logs"
-    $get_cic_log_cmd > $namespace_dir/$cic_log_file
-    #sed -i -e $REPLACE_IP_PATTERN $namespace_dir/$cic_log_file
+    get_log_cmd="kubectl logs deployment/$dep_name -c $container_name -n $namespace"
+    log_file="logs/${container_name}_logs.txt"
+    mkdir -p "$namespace_dir/logs"
+    echo "Collecting $container_name logs"
+    $get_log_cmd > $namespace_dir/$log_file
+    #sed -i -e $REPLACE_IP_PATTERN $namespace_dir/$log_file
 }
 
-get_restarted_cic_logs(){
+get_restarted_logs(){
     namespace=$1
     namespace_dir=$2
     dep_name=$3
     container_name=$4
-    get_cic_log_cmd="kubectl logs -p deployment/$dep_name -c $container_name -n $namespace"
-    cic_log_file=cic_logs/restarted_pod_logs.txt
-    mkdir -p "$namespace_dir/cic_logs"
-    echo "Collecting Restarted CIC logs"
-    $get_cic_log_cmd > $namespace_dir/$cic_log_file
-    #sed -i -e $REPLACE_IP_PATTERN $namespace_dir/$cic_log_file
+    get_log_cmd="kubectl logs -p deployment/$dep_name -c $container_name -n $namespace"
+    log_file="logs/restarted_pod_${container_name}_logs.txt"
+    mkdir -p "$namespace_dir/logs"
+    echo "Collecting $container_name restarted logs"
+    $get_log_cmd > $namespace_dir/$log_file
+    #sed -i -e $REPLACE_IP_PATTERN $namespace_dir/$log_file
 }
 
 create_tar() {
@@ -205,12 +205,26 @@ create_tar() {
 disclaimer
 echo "****************************************"
 echo "Started collecting kubectl outputs!!!"
-echo "Collecting kubectl outputs of Pods, Services, Ingress, CRD, Events and CIC logs"
+echo "Collecting kubectl outputs of Pods, Services, Ingress, CRD, Events and NSIC logs"
 echo "****************************************"
 echo "Which CNI has been installed in the cluster?"
 read cluster_cni
-echo "Enter the name of the Ingress Controller's (NSIC) container in the format <namespace-of-nsic>/<deployment-name-of-nsic>/<container-name>. (eg: ns1/dep1/cic ns2/dep2/citrix-ingress-controller) "
-read cic_dep
+
+# NSIC deployment details
+nsic_namespace_array=()
+nsic_dep_array=()
+
+while true; do
+    read -p "Enter the namespace where NetScaler Ingress Controller (NSIC) is deployed: " nsic_namespace
+    nsic_namespace_array+=("$nsic_namespace")
+    read -p "Enter the deployment name of the NSIC: " nsic_dep
+    nsic_dep_array+=("$nsic_dep")
+    read -p "Do you want to add more NSIC deployments? (yes/no): " more_nsic
+    if [ "$more_nsic" == "no" ]; then
+        break
+    fi
+done
+
 echo "Enter space separated namespace(s) of application deployment where ingress, services, pods and crds are deployed:(eg: namespace1 namespace2 namespace3) "
 read app_namespace
 echo "Enter the absolute path of the directory to collect outputs: "
@@ -244,17 +258,18 @@ do
     get_event_info $ns $namespace_dir
 done
 
-for dep in $cic_dep
+for i in ${!nsic_dep_array[@]}
 do
-    dep_info=(${dep//\// })
-    ns=${dep_info[0]}         
-    dep_name=${dep_info[1]}         
-    container_name=${dep_info[2]}
+    dep_name=${nsic_dep_array[$i]}
+    ns=${nsic_namespace_array[$i]}
+    container_names=$(kubectl get pod -l app=$dep_name -o=jsonpath='{.items[*].spec.containers[*].name}' -n $ns)
     # Getting pod details
-    get_cic_dep_info $ns $out_dir/$ns $dep_name
-    # Getting CIC logs
-    get_cic_logs $ns $out_dir/$ns $dep_name $container_name
-    get_restarted_cic_logs $ns $out_dir/$ns $dep_name $container_name
+    get_nsic_dep_info $ns $out_dir/$ns $dep_name
+    # Getting NSIC logs
+    for container_name in $container_names; do
+        get_logs $ns $out_dir/$ns $dep_name $container_name
+        get_restarted_logs $ns $out_dir/$ns $dep_name $container_name
+    done
 done
 # Getting CRD details
 get_crd_info
