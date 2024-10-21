@@ -9,7 +9,7 @@ path and recreate the tar to share.
 ## How to use this script
 Download the script from [here](https://github.com/netscaler/modern-apps-toolkit) 
     
-    cd modern-apps-toolkit/cic_diagnostics_tool
+    cd modern-apps-toolkit/nsic_diagnostics_tool
     ./nsic_diagnostics_tool.sh
 
 ## Diagnostic Tool
