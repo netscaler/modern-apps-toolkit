@@ -12,5 +12,5 @@ git clone https://github.com/netscaler/modern-apps-toolkit.git
 NetScaler provides a kubectl plug-in **netscaler** to inspect ingress controller deployments and aids in troubleshooting operations. You can inspect NetScaler config and related Kubernetes components using the subcommands available with this plug-in. For more information on how to use the plugin, see [Kubectl plugin document](netscaler-plugin/README.md)
 
 - NSIC Diagnostics Tool:  
-NSIC Diagnostics tool is a simple shell script that collects information related to NetScaler Ingress Controller and applications deployed in the Kubernetes cluster.
-For more information on how this tool, see [NSIC Diagnostics Tool](nsic_diagnostics_tool/README.md)
+NSIC Diagnostics tool is a simple shell script that collects information related to NetScaler Ingress Controller, NetScaler GSLB Controller, NetScaler IPAM Controller, NetScaler Kubernetes Gateway Controller and applications deployed in the Kubernetes cluster.
+For more information on how this tool, see [Diagnostics Tool](diagnostics_tool/README.md)
