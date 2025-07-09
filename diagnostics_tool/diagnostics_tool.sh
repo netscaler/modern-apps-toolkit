@@ -30,12 +30,20 @@ disclaimer(){
     echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
 }
 
+get_all_controller_deployments() {
+    container_name=$1
+    while read -r namespace depname; do
+        namespace_array+=("$namespace")
+        dep_array+=("$depname")
+    done < <($cluster_env get deployments --all-namespaces -o jsonpath='{range .items[*]}{.metadata.namespace}{" "}{.metadata.name}{" "}{range .spec.template.spec.containers[*]}{.name}{" "}{end}{"\n"}{end}' | awk -v cname="$container_name" '{for(i=3;i<=NF;i++) if($i ~ cname) print $1, $2}')
+}
+
 get_controller_dep_info() {
     namespace=$1
     namespace_dir=$2
     dep_name=$3
     get_controller_dep_cmd="$cluster_env get deployment $dep_name -o yaml -n $namespace"
-    get_controller_dep_file="${dep_name}_deployment/${dep_name}_deployments.yaml"
+    get_controller_dep_file="${dep_name}_deployment/${dep_name}_deployment.yaml"
     mkdir -p "$namespace_dir/${dep_name}_deployment"
     echo "Collecting $get_controller_dep_cmd output"
     $get_controller_dep_cmd > $namespace_dir/$get_controller_dep_file
@@ -248,11 +256,18 @@ echo "****************************************"
 echo "Starting diagnostics collection..."
 echo "Gathering information for Pods, Services, Ingresses, CRDs, Events, and Logs."
 echo "****************************************"
-echo "Enter the CLI tool used to interact with your cluster:"
-echo "For example, enter 'kubectl' for Kubernetes or 'oc' for OpenShift."
-read cluster_env
-cluster_env=$(echo "$cluster_env" | tr '[:upper:]' '[:lower:]')
-echo "Which CNI has been installed in the cluster?"
+# Check for kubectl or oc and set cluster_env accordingly
+if command -v kubectl >/dev/null 2>&1; then
+    cluster_env="kubectl"
+elif command -v oc >/dev/null 2>&1; then
+    cluster_env="oc"
+else
+    echo -e "\033[0;31mError: Neither kubectl nor oc is installed or available in PATH.\033[0m"
+    echo -e "\033[0;31mPlease install kubectl or oc CLI tool and run the script again.\033[0m"
+    exit 1
+fi
+
+echo "Specify the CNI installed in your cluster (e.g., Flannel, Calico, Cilium, etc.):"
 read cluster_cni
 
 # Controller deployment details
@@ -261,34 +276,40 @@ namespace_array=()
 dep_array=()
 
 while true; do
-    echo "Please select the NetScaler Controller for which you would like to collect logs. Enter the corresponding number:"
+    echo "Select the NetScaler Controller to collect logs for:"
     echo "1. NetScaler Ingress Controller"
     echo "2. NetScaler GSLB Controller"
     echo "3. NetScaler IPAM Controller"
     echo "4. NetScaler Kubernetes Gateway Controller"
-    echo "5. All Controllers"
-    read -p "Enter your choice: " nsic_choice
+    echo "5. All NetScaler Controllers deployed in the cluster"
+    read -p "Enter the corresponding number of your choice: " nsic_choice
 
     case $nsic_choice in
         1)
             controller_choice="NetScaler Ingress Controller"
+            container_name="cic|nsic"
+            get_all_controller_deployments $container_name
             ;;
         2)
             controller_choice="NetScaler GSLB Controller"
+            container_name="gslb"
+            get_all_controller_deployments $container_name
             ;;
         3)
             controller_choice="NetScaler IPAM Controller"
+            container_name="ipam"
+            get_all_controller_deployments $container_name
             ;;
         4)
             controller_choice="NetScaler Kubernetes Gateway Controller"
+            container_name="nsgc"
+            get_all_controller_deployments $container_name
             ;;
         5)
             controller_choice="All"
             controller_choice_array+=("$controller_choice")
-            while read -r namespace depname; do
-            namespace_array+=("$namespace")
-            dep_array+=("$depname")
-            done < <($cluster_env get deployments --all-namespaces -o jsonpath='{range .items[*]}{.metadata.namespace}{" "}{.metadata.name}{" "}{range .spec.template.spec.containers[*]}{.name}{" "}{end}{"\n"}{end}' | awk '{for(i=3;i<=NF;i++) if($i ~ /cic|nsic|ipam|gslb|nsgc|netscaler/) print $1, $2}')
+            container_name="cic|nsic|ipam|gslb|nsgc|netscaler"
+            get_all_controller_deployments $container_name
             break
             ;;
         *)
@@ -298,11 +319,7 @@ while true; do
     esac
     controller_choice_array+=("$controller_choice")
 
-    read -p "Enter the namespace where $controller_choice is deployed: " namespace
-    namespace_array+=("$namespace")
-    read -p "Enter the deployment name of the $controller_choice: " dep
-    dep_array+=("$dep")
-    read -p "Do you want to add more deployments? (yes/no): " more_nsic
+    read -p "Do you want to add more deployments from another NetScaler controller? (yes/no): " more_nsic
     case "$more_nsic" in
         [Yy][Ee][Ss]|[Yy])
             continue

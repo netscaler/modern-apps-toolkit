@@ -1,8 +1,8 @@
 # Troubleshooting NetScaler Controller and Applications Deployed in a Kubernetes Cluster
 
-This diagnostic tool is a shell script designed to gather information related to the NetScaler Ingress Controller, NetScaler GSLB Controller, or NetScaler Kubernetes Gateway Controller, as well as applications deployed within a Kubernetes cluster. Based on the input provided by the user, the appropriate NetScaler Controller is selected. 
+This diagnostic tool is a shell script designed to collect information from NetScaler controllers namely the NetScaler Ingress Controller, NetScaler GSLB Controller, NetScaler IPAM Controller, and NetScaler Kubernetes Gateway Controller as well as from applications deployed in the cluster. Users can specify which NetScaler controller logs to collect or, choose to gather logs from all available controllers. Based on the input provided by the user, the appropriate NetScaler Controller is selected. 
 
-This tool requires the namespace, CNI, and output directory path as inputs to extract the necessary information. The collected data is stored in a tar file format within the specified output directory. If any sensitive information is identified that should not be shared, users are advised to review the `output_<timestamp>` directory under the specified output directory path and recreate the tar file before sharing.
+This tool requires the following inputs: the CNI type, the namespace where applications are deployed, and the output directory path. All collected diagnostic data is saved as a tar archive in the specified output directory. Before sharing, users should review the `output_<timestamp>` directory within the output path to ensure no sensitive information is included, and recreate the tar file if necessary.
 
 ## Usage Instructions
 
