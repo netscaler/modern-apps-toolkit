@@ -12,22 +12,18 @@
 #!/bin/bash
 
 disclaimer(){
-    echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
-    echo "********************************************************************"
-    echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
-    echo "This script gathers diagnostic information about the NetScaler Ingress"
-    echo "Controller, NetScaler GSLB Controller, NetScaler IPAM Controller, or "
-    echo "NetScaler Kubernetes Gateway Controller, as well as details of applications"
-    echo "deployed in the cluster."
-    echo "The collected data will be packaged into a tar file. If the output"
-    echo "contains sensitive information, please review the 'output_<timestamp>'"
-    echo "directory in the specified output path and recreate the tar file before"
-    echo "sharing."
+    echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
+    echo "*****************************************************************************************************************************"
+    echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
+    echo "This script gathers diagnostic information about the NetScaler Ingress Controller, NetScaler GSLB Controller, NetScaler IPAM"
+    echo "Controller, or NetScaler Kubernetes Gateway Controller, as well as details of applications deployed in the cluster."
+    echo "The collected data will be packaged into a tar file. If the output contains sensitive information, please review "
+    echo "the 'output_<timestamp> directory in the current working directory and recreate the tar file before sharing."
     echo -e "\033[0;33mWarning: This script does not mask IP addresses in the collected output files by default.\033[0m"
     echo -e "\033[0;33mTo enable IP address masking, uncomment the line containing 'sed -i -e REPLACE_IP_PATTERN' in the script.\033[0m"
-    echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
-    echo "********************************************************************"
-    echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
+    echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
+    echo "*****************************************************************************************************************************"
+    echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
 }
 
 get_all_controller_deployments() {
@@ -252,10 +248,10 @@ create_tar() {
 } 
 
 disclaimer
-echo "****************************************"
+echo "****************************************************************************"
 echo "Starting diagnostics collection..."
 echo "Gathering information for Pods, Services, Ingresses, CRDs, Events, and Logs."
-echo "****************************************"
+echo "****************************************************************************"
 # Check for kubectl or oc and set cluster_env accordingly
 if command -v kubectl >/dev/null 2>&1; then
     cluster_env="kubectl"
@@ -275,15 +271,20 @@ controller_choice_array=()
 namespace_array=()
 dep_array=()
 
-while true; do
-    echo "Select the NetScaler Controller to collect logs for:"
-    echo "1. NetScaler Ingress Controller"
-    echo "2. NetScaler GSLB Controller"
-    echo "3. NetScaler IPAM Controller"
-    echo "4. NetScaler Kubernetes Gateway Controller"
-    echo "5. All NetScaler Controllers deployed in the cluster"
-    read -p "Enter the corresponding number of your choice: " nsic_choice
+echo "Select one or more NetScaler Controllers to collect logs for (separate choices with spaces):"
+echo "1. NetScaler Ingress Controller"
+echo "2. NetScaler GSLB Controller"
+echo "3. NetScaler IPAM Controller"
+echo "4. NetScaler Kubernetes Gateway Controller"
+echo "5. All NetScaler Controllers deployed in the cluster"
+read -p "Enter your choice(s) (e.g., 1 3): " nsic_choices
 
+# If "All" is selected, override other choices
+if [[ $nsic_choices =~ (^|[[:space:]])5($|[[:space:]]) ]]; then
+    nsic_choices="5"
+fi
+
+for nsic_choice in $nsic_choices; do
     case $nsic_choice in
         1)
             controller_choice="NetScaler Ingress Controller"
@@ -313,33 +314,18 @@ while true; do
             break
             ;;
         *)
-            echo "Invalid choice. Please try again."
-            continue
+            echo -e "\033[0;31m[ERROR]\033[0m Invalid choice: '$nsic_choice'. Skipping. Please select a valid option (1-5)."
             ;;
     esac
     controller_choice_array+=("$controller_choice")
-
-    read -p "Do you want to add more deployments from another NetScaler controller? (yes/no): " more_nsic
-    case "$more_nsic" in
-        [Yy][Ee][Ss]|[Yy])
-            continue
-            ;;
-        [Nn][Oo]|[Nn])
-            break
-            ;;
-        *)
-            echo "Invalid input. Please enter 'yes' or 'no'."
-            continue
-            ;;
-    esac
 done
 
 echo "Enter the namespace(s) where your applications (ingress, services, pods, and CRDs) are deployed, separated by spaces (e.g., namespace1 namespace2 namespace3):"
 echo "Or press Enter to collect outputs from all namespaces."
 echo -e "\033[0;33mWarning: Pressing Enter will collect outputs from every namespace in your cluster.\033[0m"
 read app_namespace
-echo "Enter the absolute path of the directory to collect outputs: "
-read user_dir
+user_dir=$(pwd)
+echo "Collecting outputs in the current directory: $user_dir"
 
 timestamp=$(date "+%F-%H-%M-%S")
 echo "Current time:" + $timestamp
@@ -378,7 +364,7 @@ done
 
 # Collecting Gateway CRD info only if any controller is "NetScaler Kubernetes Gateway Controller"
 # Or if "All" controllers are selected
-if printf '%s\n' "${controller_choice[@]}" | grep -Eq "Gateway|All"; then
+if printf '%s\n' "${controller_choice_array[@]}" | grep -Eq "Gateway|All"; then
     get_gwy_crd_info
     for ns in $app_namespace; do
         namespace_dir=$out_dir/$ns
