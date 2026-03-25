@@ -16,5 +16,5 @@ NSIC Diagnostics tool is a simple shell script that collects information related
 For more information on how this tool works, see [Diagnostics Tool](diagnostics_tool/README.md)
 
 - Config Cleanup:  
-Clean up stale NSIC (NetScaler Ingress Controller) configuration from a NetScaler by name prefix. When NSIC is deleted without first removing the associated Ingress/Gateway resources, it leaves behind stale configuration on the NetScaler. Since other config may exist on the same appliance, a blanket `clear config` is not safe. This script deletes only the resources whose names start with a given prefix (e.g. `k8s-` or `k8s_`), covering all entity types that NSIC creates.
+This script cleans up stale NSIC (NetScaler Ingress Controller) configuration from a NetScaler by name prefix. When NSIC is deleted without first removing the associated Ingress/Gateway resources, it leaves behind stale configuration on the NetScaler. Since other config may exist on the same appliance, a blanket `clear config` is not safe. This script deletes only the resources whose names start with a given prefix (e.g. `k8s-` or `k8s_`), covering all entity types that NSIC creates.
 For more information on the tool, see [Config Cleanup](config-cleanup/README.md)
